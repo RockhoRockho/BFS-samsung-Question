@@ -35,47 +35,47 @@ BFS 공부 및 정리
 
 ### **풀이**
 
-```n,m = map(int, input().split())``` - 세로크기, 가로크기
-```r,c,d = map(int,input().split())``` - (r,c)좌표와 방향d
-```s = [list(map(int,input().split())) for _ in range(n)]``` - 지도 데이터
+```n,m = map(int, input().split()) - 세로크기, 가로크기
+r,c,d = map(int,input().split()) - (r,c)좌표와 방향d
+s = [list(map(int,input().split())) for _ in range(n)] - 지도 데이터
 
 0 -> 북쪽 = 왼쪽방향 적용시 '서쪽' 3
 1 -> 동쪽 = 왼쪽방향 적용시 '북쪽' 0
 2 -> 남쪽 = 왼쪽방향 적용시 '동쪽' 1
 3 -> 서쪽 = 왼쪽방향 적용시 '남쪽' 2
 
-```dx = [-1, 0, 1, 0]``` - y축이동
-```dy = [0, 1, 0, -1]``` - x축이동
+dx = [-1, 0, 1, 0] - y축이동
+dy = [0, 1, 0, -1] - x축이동
 
-```def turn_left(d):
+def turn_left(d):
   global d
-  d = (d-1) % 4``` - 위 조건 성립
+  d = (d-1) % 4 - 위 조건 성립
   
-```x,y = r,c 
-s[x][y] = 2``` - 청소함(2)
-```count = 1``` - 청소기 사용횟수
+x,y = r,c 
+s[x][y] = 2 - 청소함(2)
+count = 1 - 청소기 사용횟수
 
-```while True:
-    check = False``` check 함수로 구분
- ```for i in range(4):
+while True:
+    check = False - check 함수로 구분
+    for i in range(4):
       turn_left()
       nx = x + dx[d]
       ny = y + dy[d]
       if 0<=nx<n and 0<=ny<m and s[nx][ny] == 0:
-        s[nx][ny] = 2``` a번 조항
-     ```x,y = nx,ny
-        count += 1``` 청소기 이동수 추가
-     ```check = True``` 아래 식 continue와 비슷한 기능
-     ```break
+        s[nx][ny] = 2 - a번 조항
+        x,y = nx,ny
+        count += 1 - 청소기 이동수 추가
+        check = True - 아래 식 continue와 비슷한 기능
+        break
     if not check:
       nx = x - dx[d]
       ny = y - dy[d]
       if 0<=nx<n and 0<=ny<m:
         if s[nx][ny] == 2:
-          x,y = nx, ny``` 안맞아서 c번조항에 따름
-     ```elif s[nx][ny] == 1:
-          print(count)``` d번조항
+          x,y = nx, ny - 안맞아서 c번조항에 따름
+        elif s[nx][ny] == 1:
+          print(count) - d번조항
           break
       else:
         print(count)
-        break``` d번조항
+        break - d번조항```
