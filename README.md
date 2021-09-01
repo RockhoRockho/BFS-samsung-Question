@@ -1,8 +1,12 @@
 # BFS-study
 BFS 공부 및 정리
+--
 
-## 백준 14503번 정리
+## Day 1 (2021-08-31)
+
 ---
+
+### 백준 14503번 정리
 
 **문제**
 로봇 청소기가 주어졌을 때, 청소하는 영역의 개수를 구하는 프로그램을 작성하시오.
@@ -35,47 +39,99 @@ BFS 공부 및 정리
 
 ### **풀이**
 
-```n,m = map(int, input().split()) - 세로크기, 가로크기
-r,c,d = map(int,input().split()) - (r,c)좌표와 방향d
-s = [list(map(int,input().split())) for _ in range(n)] - 지도 데이터
+```n,m = map(int, input().split()) # 세로크기, 가로크기
+r,c,d = map(int,input().split()) # (r,c)좌표와 방향d
+s = [list(map(int,input().split())) for _ in range(n)] # 지도 데이터
 
-0 -> 북쪽 = 왼쪽방향 적용시 '서쪽' 3
+### 0 -> 북쪽 = 왼쪽방향 적용시 '서쪽' 3
 1 -> 동쪽 = 왼쪽방향 적용시 '북쪽' 0
 2 -> 남쪽 = 왼쪽방향 적용시 '동쪽' 1
-3 -> 서쪽 = 왼쪽방향 적용시 '남쪽' 2
+3 -> 서쪽 = 왼쪽방향 적용시 '남쪽' 2 ###
 
-dx = [-1, 0, 1, 0] - y축이동
-dy = [0, 1, 0, -1] - x축이동
+dx = [-1, 0, 1, 0] # y축이동
+dy = [0, 1, 0, -1] # x축이동
 
 def turn_left(d):
   global d
-  d = (d-1) % 4 - 위 조건 성립
+  d = (d-1) % 4 # 위 조건 성립
   
 x,y = r,c 
-s[x][y] = 2 - 청소함(2)
-count = 1 - 청소기 사용횟수
+s[x][y] = 2 # 청소함(2)
+count = 1 # 청소기 사용횟수
 
 while True:
-    check = False - check 함수로 구분
+    check = False # check 함수로 구분
     for i in range(4):
       turn_left()
       nx = x + dx[d]
       ny = y + dy[d]
       if 0<=nx<n and 0<=ny<m and s[nx][ny] == 0:
-        s[nx][ny] = 2 - a번 조항
+        s[nx][ny] = 2 # a번 조항
         x,y = nx,ny
-        count += 1 - 청소기 이동수 추가
-        check = True - 아래 식 continue와 비슷한 기능
+        count += 1 # 청소기 이동수 추가
+        check = True # 아래 식 continue와 비슷한 기능
         break
     if not check:
       nx = x - dx[d]
       ny = y - dy[d]
       if 0<=nx<n and 0<=ny<m:
         if s[nx][ny] == 2:
-          x,y = nx, ny - 안맞아서 c번조항에 따름
+          x,y = nx, ny # 안맞아서 c번조항에 따름
         elif s[nx][ny] == 1:
-          print(count) - d번조항
+          print(count) # d번조항
           break
       else:
         print(count)
-        break - d번조항```
+        break # d번조항```
+        
+--
+
+## Day 2 (2021-09-01)
+
+--
+
+### **백준 1260번**  
+
+**문제**  
+그래프를 DFS로 탐색한 결과와 BFS로 탐색한 결과를 출력하는 프로그램을 작성하시오. 단, 방문할 수 있는 정점이 여러 개인 경우에는 정점 번호가 작은 것을 먼저 방문하고, 더 이상 방문할 수 있는 점이 없는 경우 종료한다. 정점 번호는 1번부터 N번까지이다.  
+
+**입력**  
+첫째 줄에 정점의 개수 N(1 ≤ N ≤ 1,000), 간선의 개수 M(1 ≤ M ≤ 10,000), 탐색을 시작할 정점의 번호 V가 주어진다. 다음 M개의 줄에는 간선이 연결하는 두 정점의 번호가 주어진다. 어떤 두 정점 사이에 여러 개의 간선이 있을 수 있다. 입력으로 주어지는 간선은 양방향이다.  
+
+**출력**  
+첫째 줄에 DFS를 수행한 결과를, 그 다음 줄에는 BFS를 수행한 결과를 출력한다. V부터 방문된 점을 순서대로 출력하면 된다. 
+
+--
+
+**풀이**  
+
+```n,m,v = map(int,input().split())
+visit = [0 for _ in range(n+1)]
+s = [[0]*(n+1) for _ in range(n+1)]
+for _ in range(m):
+  x,y = map(int,input().split())
+  s[x][y] = 1
+  s[y][x] = 1 # branch는 x,y/y,x 의 그래프에 입력하여 그림
+
+def dfs(v):
+  print(v, end=' ')
+  visit[v] = 1
+  for i in range(1, n+1):
+    if visit[i] == 0 and s[v][i] == 1:
+      dfs(i)
+
+def bfs(v):
+  q = [v]
+  visit[v] = 0
+  while(q):
+    v = q[0]
+    print(v, end=' ')
+    del q[0]
+    for i in range(1, n+1):
+      if visit[i] == 1 and s[v][i] == 1:
+        visit[i] = 0
+        q.append(i) # dfs와 달리 바로 다음으로 넘어가지 않고 끝처리 마무리 후 
+
+dfs(v)
+print() # 한칸 뛰기
+bfs(v)```
