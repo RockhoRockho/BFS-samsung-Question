@@ -39,7 +39,7 @@ BFS 공부 및 정리
 
 ### **풀이**
 
-```n,m = map(int, input().split()) # 세로크기, 가로크기
+``` n,m = map(int, input().split()) # 세로크기, 가로크기
 r,c,d = map(int,input().split()) # (r,c)좌표와 방향d
 s = [list(map(int,input().split())) for _ in range(n)] # 지도 데이터
 
@@ -82,7 +82,8 @@ while True:
           break
       else:
         print(count)
-        break # d번조항```
+        break # d번조항 
+```
         
 --
 
@@ -105,7 +106,7 @@ while True:
 
 **풀이**  
 
-```n,m,v = map(int,input().split())
+``` n,m,v = map(int,input().split())
 visit = [0 for _ in range(n+1)]
 s = [[0]*(n+1) for _ in range(n+1)]
 for _ in range(m):
@@ -134,4 +135,5 @@ def bfs(v):
 
 dfs(v)
 print() # 한칸 뛰기
-bfs(v)```
+bfs(v) 
+```
