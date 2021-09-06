@@ -199,8 +199,6 @@ print(s[n-1][m-1])
 
 ### **백준 2606번**  
 
-Day 1 (2021-08-31)
-
 **문제**  
 신종 바이러스인 웜 바이러스는 네트워크를 통해 전파된다. 한 컴퓨터가 웜 바이러스에 걸리면 그 컴퓨터와 네트워크 상에서 연결되어 있는 모든 컴퓨터는 웜 바이러스에 걸리게 된다.  
 
@@ -239,4 +237,47 @@ def dfs(a):
 
 print(dfs(1))
 
+```
+
+--
+
+## Day 4 (2021-09-04)
+
+--
+
+### **백준 2667번**  
+
+```
+from collections import deque
+
+n = int(input())
+s = [list(map(int,input())) for _ in range(n)] # 지도그리기
+v = [[0]*n for _ in range(n)] # 방문기록
+dx = [-1, 1, 0, 0] # x축 이동
+dy = [0, 0, -1, 1] # y축 이동
+
+def dfs(cnt, i, j): # cnt를 추가하는 이유 - 단지수를 재기 위해 매개변수를 추가함 / dfs로 추가하면 편함
+  q = deque()
+  q.append((i,j))
+  v[i][j] = 1
+  while q:
+    x,y = q.popleft()
+    for i in range(4):
+      nx = x + dx[i]
+      ny = y + dy[i]
+      if 0<=nx<n and 0<=ny<n and s[nx][ny] and v[nx][ny] == 0:
+        v[nx][ny] = 1
+        cnt = dfs(cnt+1, nx, ny) # 단지수를 기록하기 위해
+  return cnt # 최종적으로 단지수로만 출력하기 위함
+
+dab = [] # 단지 수 기록하는 리스트
+for i in range(n):
+  for j in range(n):
+    if s[i][j] == 1 and v[i][j] == 0:
+      dab.append(bfs(1, i, j))
+
+print(len(dab)) # 총 갯수
+for i in sorted(dab): # 단지 수
+  print(i)
+  
 ```
