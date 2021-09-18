@@ -733,3 +733,95 @@ q.append([ri, rj, bi, bj, 1])                             # 초기값 입력
 v[ri][rj][bi][bj] = True                                  # 초기값 방문기록 입력
 bfs()           
 ```
+
+##  Day 10 (2021-09-18)
+
+### 백준 12100번
+
+```
+import sys, copy
+input = sys.stdin.readline # 입력 속도 up
+
+def move(dir):                                # 북쪽으로 몰았을 때
+    if dir == 0:
+        for j in range(n):
+            idx = 0                           # 변동되는 index
+            for i in range(1, n):
+                if a[i][j]:
+                    temp = a[i][j]
+                    a[i][j] = 0
+                    if a[idx][j] == 0:
+                        a[idx][j] = temp      # 해당값이 0이라면 a[i][j]값으로 바꿈
+                    elif a[idx][j] == temp:
+                        a[idx][j] = temp * 2  # 해당값이 저장값과 같다면 2배로
+                        idx += 1
+                    else:
+                        idx += 1
+                        a[idx][j] = temp      # 해당값이 a[i][j]값과 다르다면 그 a[idx][j]값을 바꿈
+    elif dir == 1:                            # 남쪽으로 몰았을 때
+        for j in range(n):
+            idx = n-1
+            for i in range(n-2, -1, -1):
+                if a[i][j]:
+                    temp = a[i][j]
+                    a[i][j] = 0
+                    if a[idx][j] == 0:
+                        a[idx][j] = temp
+                    elif a[idx][j] == temp:
+                        a[idx][j] = temp * 2
+                        idx -= 1
+                    else:
+                        idx -= 1
+                        a[idx][j] = temp
+    elif dir == 2:                            # 동쪽으로 몰았을 때
+        for i in range(n):
+            idx = 0
+            for j in range(1, n):
+                if a[i][j]:
+                    temp = a[i][j]
+                    a[i][j] = 0
+                    if a[i][idx] == 0:
+                        a[i][idx] = temp
+                    elif a[i][idx] == temp:
+                        a[i][idx] = temp * 2
+                        idx += 1
+                    else:
+                        idx += 1
+                        a[i][idx] = temp
+                        
+    else:                                      # 서쪽으로 몰았을 
+        for i in range(n):
+            idx = n-1
+            for j in range(n-2, -1, -1):
+                if a[i][j]:
+                    temp = a[i][j]
+                    a[i][j] = 0
+                    if a[i][idx] == 0:
+                        a[i][idx] = temp
+                    elif a[i][idx] == temp:
+                        a[i][idx] = temp * 2
+                        idx -= 1
+                    else:
+                        idx -= 1
+                        a[i][idx] = temp
+    
+def dfs(cnt):
+    global a, ans                              # 전역변수
+    if cnt == 5:                               # 기회는 5번까지
+        for i in range(n):
+            for j in range(n):
+                ans = max(ans, a[i][j])        # 정산
+        return
+    
+    temp_a = copy.deepcopy(a)                  # 기회가 1개씩 증가할 때마다 임의의 a값 생성
+    for i in range(4):
+        move(i)
+        dfs(cnt + 1)
+        a = copy.deepcopy(temp_a)              # move이후 값에 따른 임의의 변동 a값 생성
+
+n = int(input())
+a = [list(map(int, input().split())) for _ in range(n)]  # 지도데이터
+ans = 0                                                  # 출력값(최대자연수)
+dfs(0)                                                   # 기회 0부터 시작
+print(ans)
+```
