@@ -855,7 +855,7 @@ def start():
     direction = 1  # 초기 방향
     time = 1  # 시간
     y, x = 0, 0  # 초기 뱀 위치
-    visited = deque([[y, x]])  # 방문 위치
+    visited = deque([[y, x]])  # 방문 위치 '[[]]'인 이유는 아래 popleft에 있어서 y,x 를 동시에 입력이 들어가야하는데 '[]'만 붙이면 y만 나오게 된다.
     arr[y][x] = 2
     while True:
         y, x = y + dy[direction], x + dx[direction]
@@ -872,7 +872,8 @@ def start():
             return time
 
 
-if __name__ == "__main__":
+if __name__ == "__main__": # 이것을 붙인 이유는 파이썬은 실행할때 위에서부터 실행하는데 def 부분은 따로 출력으로 호출하지 않으면 실행이 되지 않게하는 것이다.
+                           # 즉 결국 프로그래밍 속도를 빠르게 하기 위함이다.  
 
     # input
     N = int(input())
