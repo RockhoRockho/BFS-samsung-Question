@@ -889,3 +889,31 @@ if __name__ == "__main__": # 이것을 붙인 이유는 파이썬은 실행할�
         times[int(X)] = C
     print(start())
 ```
+
+-----
+
+
+## Day 12(2021-09-28)
+
+### 백준 13458번
+
+```
+def count():
+    ans = 0
+    for i in range(n):
+        if arr[i] > 0:                # 총감독관 인원 수
+            arr[i] -= b
+            ans += 1
+        if arr[i] > 0:                # 부감독관 인원수
+            ans += int(arr[i]/c)      # 몫만큼 제외
+            
+            if arr[i] % c != 0:       # 나머지값 존재시 + 1
+                ans += 1
+    
+    return ans                        # 답 return
+            
+n = int(input())                      # 강의실 수
+arr = list(map(int,input().split()))  # 강의실 별 학생수
+b,c = map(int,input().split())        # 총감독관, 부감독관 인원수
+print(count())
+```
