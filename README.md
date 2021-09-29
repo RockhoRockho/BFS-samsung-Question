@@ -1,4 +1,4 @@
-# DFS&BFS - BFS 공부 및 정리
+# DFS&BFS, SAMSUNG SW 문제
   
   
   
@@ -916,4 +916,49 @@ n = int(input())                      # 강의실 수
 arr = list(map(int,input().split()))  # 강의실 별 학생수
 b,c = map(int,input().split())        # 총감독관, 부감독관 인원수
 print(count())
+```
+-----
+## Day 13 (2021-09-29)
+
+### 백준 14499번
+
+```
+import sys
+input = sys.stdin.readline
+
+def move(direction):
+    if direction == 1:                                                                  # 주사위 모형도 1(바닥), 2(바닥상부쪽), 5(바닥하부쪽), 4(바닥좌측), 3(바닥우측), 6(윗면)
+        dice[1], dice[3], dice[4], dice[6] = dice[3], dice[6], dice[1], dice[4]         # 우측회전
+    elif direction == 2:
+        dice[1], dice[3], dice[4], dice[6] = dice[4], dice[1], dice[6], dice[3]         # 좌측회전
+    elif direction == 3:
+        dice[1], dice[2], dice[5], dice[6] = dice[2], dice[6], dice[1], dice[5]         # 전측회전
+    elif direction == 4:
+        dice[1], dice[2], dice[5], dice[6] = dice[5], dice[1], dice[6], dice[2]         # 후측회전
+
+def dire(direction):
+    if direction == 1: return 0,1               # 동쪽이동
+    elif direction == 2: return 0,-1            # 서쪽이동
+    elif direction == 3: return -1, 0           # 북쪽이동
+    elif direction == 4: return 1, 0            # 남쪽이동
+
+n,m,x,y,k = map(int,input().split())
+s = []                                          # 지도데이터
+for _ in range(n):                              # 지도데이터 최신화
+    s.append(list(map(int,input().split())))
+com = list(map(int,input().split()))            # 방향데이터
+dice = [0,0,0,0,0,0,0]                          # 주사위지도
+
+for i in com:                             # 방향데이터로 시작
+    a,b = dire(i)                         # 이동하기 위한 값
+    if 0<x+a<n and 0<y+b<m:
+        x = x+a
+        y = y+b
+        move(i) 
+        if s[x][y] != 0:                  # 0이 아닌 값은 주사위 바닥값을 해당지도데이터로 최신화 후 지도데이터값은 0으로 바꿈
+            dice[1] = s[x][y]
+            s[x][y] = 0
+        else:                             # 지도데이터가 0이라면 주사위 바닥값 복사
+            s[x][y] = dice[1]
+        print(dice[6])                    # 
 ```
