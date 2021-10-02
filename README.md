@@ -962,3 +962,49 @@ for i in com:                             # 방향데이터로 시작
             s[x][y] = dice[1]
         print(dice[6])                    # 
 ```
+
+-----
+
+## Day 14 (2021-10-02)
+
+### 백준 14500번
+
+```
+import sys; input = sys.stdin.readline
+
+def dfs(x, y, idx, total):                # 블럭을 만들어 지도데이터 값의 총합을 구하는 함수
+    global ans                            # 함수 안에서 global변수로 저장 / 함수 안에서 변하는 수이지만 초기화 되지 않고 이전 값 그대로 가져감
+    if ans >= total + max_val * (3-idx):  # 최대값을 정하여 그 이상으로 값이 나갈시에 걸러내어 시간을 빨리 나오게 함
+        return
+    if idx == 3:                          # 4번째 블럭 완성시 출력 
+        ans = max(ans, total)
+        return
+    else:
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if 0 <=nx<n and 0<=ny<m and v[nx][ny] == 0:
+                if idx == 1:                                      # 'ㅗ'자 만들기위함
+                    v[nx][ny] = 1
+                    dfs(x, y, idx+1, total + arr[nx][ny])         
+                    v[nx][ny] = 0
+                v[nx][ny] = 1                                     # 'ㅁ', 'ㅣ', ㄱ', 'N' 블럭 만듦
+                dfs(nx, ny, idx+1, total + arr[nx][ny])
+                v[nx][ny] = 0
+    
+n,m = map(int, input().split())                             # 열, 행 입력
+arr = [list(map(int,input().split())) for _ in range(n)]    # 지도데이터 입력
+v = [[0] * m for _ in range(n)]                             # 방문데이터 (중복방지)
+dx = [1, -1, 0, 0]                                          # x축
+dy = [0, 0, 1, -1]                                          # y축
+ans = 0                                                     # 지도데이터 4개의 합의 최대값
+max_val = max(map(max,arr))                                 # 지도데이터 단독 최대값
+
+for x in range(n):
+    for y in range(m):
+        v[x][y] = 1                 # 1번 블럭 방문데이터 1로 바꾸며 중복방지 
+        dfs(x, y, 0, arr[x][y])     # 블록함수
+        v[x][y] = 0                 # 다음 수의 방문데이터를 위한 초기화
+        
+print(ans)
+```
