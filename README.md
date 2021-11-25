@@ -148,3 +148,40 @@
 ## Day 20 (2021-10-17)
 
 - 연산자를 이용하여 최댓값 최솟값을 도출하는 bfs
+
+## Day 21 (2021-11-26)
+
+- `combination` 순열 조합 학습
+
+```
+import itertools
+
+chars = ['A', 'B', 'C']
+
+p = itertools.permutations(chars, 2)  # 순열
+c = itertools.combinations(chars, 2)  # 조합
+
+print(list(p))
+print(list(c))
+
+# 실행 결과는 다음과 같다
+
+[('A', 'B'), ('A', 'C'), ('B', 'A'), ('B', 'C'), ('C', 'A'), ('C', 'B')]
+[('A', 'B'), ('A', 'C'), ('B', 'C')]
+```
+
+- `Counter` 학습
+```
+from collections import Counter
+
+def find_max(word):
+    counter = Counter(word)
+    max_count = -1
+    for letter in counter:
+        if counter[letter] > max_count:
+            max_count = counter[letter]
+            max_letter = letter
+    return max_letter, max_count
+
+find_max('hello world') # ('l', 3)
+```
